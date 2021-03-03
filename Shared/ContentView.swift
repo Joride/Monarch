@@ -7,15 +7,22 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        Text("Hello, world!")
-            .padding()
+struct ContentView: View 
+{
+    @ObservedObject private var cameraDevicesManager = CameraDeviceManager()
+    var body: some View 
+    {   
+        NavigationView
+        {
+            CameraDeviceListView(cameraDevices: $cameraDevicesManager.cameraDevices)
+        }
+        .onAppear { cameraDevicesManager.start() }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
+    static var previews: some View 
+    {
         ContentView()
     }
 }

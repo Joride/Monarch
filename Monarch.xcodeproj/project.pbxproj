@@ -13,6 +13,14 @@
 		A29FACED25EECF4A00F999A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FACD825EECF4900F999A0 /* ContentView.swift */; };
 		A29FACEE25EECF4A00F999A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A29FACD925EECF4A00F999A0 /* Assets.xcassets */; };
 		A29FACEF25EECF4A00F999A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A29FACD925EECF4A00F999A0 /* Assets.xcassets */; };
+		A29FACFB25EECF7F00F999A0 /* CameraDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FACFA25EECF7E00F999A0 /* CameraDeviceManager.swift */; };
+		A29FACFC25EECF7F00F999A0 /* CameraDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FACFA25EECF7E00F999A0 /* CameraDeviceManager.swift */; };
+		A29FAD0025EED17500F999A0 /* CameraDeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FACFF25EED17500F999A0 /* CameraDeviceRowView.swift */; };
+		A29FAD0125EED17500F999A0 /* CameraDeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FACFF25EED17500F999A0 /* CameraDeviceRowView.swift */; };
+		A29FAD1425F021C300F999A0 /* CameraDeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FAD1325F021C300F999A0 /* CameraDeviceListView.swift */; };
+		A29FAD1525F021C300F999A0 /* CameraDeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FAD1325F021C300F999A0 /* CameraDeviceListView.swift */; };
+		A29FAD1925F02C9F00F999A0 /* CameraDeviceMediaItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FAD1825F02C9F00F999A0 /* CameraDeviceMediaItemsView.swift */; };
+		A29FAD1A25F02C9F00F999A0 /* CameraDeviceMediaItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29FAD1825F02C9F00F999A0 /* CameraDeviceMediaItemsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +32,10 @@
 		A29FACE625EECF4A00F999A0 /* Monarch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monarch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A29FACE825EECF4A00F999A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A29FACE925EECF4A00F999A0 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		A29FACFA25EECF7E00F999A0 /* CameraDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraDeviceManager.swift; sourceTree = "<group>"; };
+		A29FACFF25EED17500F999A0 /* CameraDeviceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDeviceRowView.swift; sourceTree = "<group>"; };
+		A29FAD1325F021C300F999A0 /* CameraDeviceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDeviceListView.swift; sourceTree = "<group>"; };
+		A29FAD1825F02C9F00F999A0 /* CameraDeviceMediaItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDeviceMediaItemsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +71,10 @@
 			children = (
 				A29FACD725EECF4900F999A0 /* MonarchApp.swift */,
 				A29FACD825EECF4900F999A0 /* ContentView.swift */,
+				A29FAD1325F021C300F999A0 /* CameraDeviceListView.swift */,
+				A29FACFF25EED17500F999A0 /* CameraDeviceRowView.swift */,
+				A29FAD1825F02C9F00F999A0 /* CameraDeviceMediaItemsView.swift */,
+				A29FACFA25EECF7E00F999A0 /* CameraDeviceManager.swift */,
 				A29FACD925EECF4A00F999A0 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -187,7 +203,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A29FAD0025EED17500F999A0 /* CameraDeviceRowView.swift in Sources */,
+				A29FACFB25EECF7F00F999A0 /* CameraDeviceManager.swift in Sources */,
+				A29FAD1425F021C300F999A0 /* CameraDeviceListView.swift in Sources */,
 				A29FACEC25EECF4A00F999A0 /* ContentView.swift in Sources */,
+				A29FAD1925F02C9F00F999A0 /* CameraDeviceMediaItemsView.swift in Sources */,
 				A29FACEA25EECF4A00F999A0 /* MonarchApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,7 +216,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A29FAD0125EED17500F999A0 /* CameraDeviceRowView.swift in Sources */,
+				A29FACFC25EECF7F00F999A0 /* CameraDeviceManager.swift in Sources */,
+				A29FAD1525F021C300F999A0 /* CameraDeviceListView.swift in Sources */,
 				A29FACED25EECF4A00F999A0 /* ContentView.swift in Sources */,
+				A29FAD1A25F02C9F00F999A0 /* CameraDeviceMediaItemsView.swift in Sources */,
 				A29FACEB25EECF4A00F999A0 /* MonarchApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

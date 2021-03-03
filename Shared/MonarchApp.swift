@@ -8,9 +8,12 @@
 import SwiftUI
 
 @main
-struct MonarchApp: App {
-    var body: some Scene {
-        WindowGroup {
+struct MonarchApp: App
+{    
+    var body: some Scene 
+    {
+        WindowGroup 
+        {
             ContentView()
         }
     }
