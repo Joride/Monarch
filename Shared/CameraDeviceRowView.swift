@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CameraDeviceRowView: View 
 {
-    @Binding var cameraDevice: CameraDevice
+    @ObservedObject var cameraDevice: CameraDevice
     var body: some View {
         HStack
         {
@@ -20,8 +20,18 @@ struct CameraDeviceRowView: View
             {
                 Text(cameraDevice.name)
                     .font(.title)
-                Image(systemName: "lock")
-                    .font(.largeTitle)
+                if cameraDevice.isAccessRestrictedAppleDevice
+                {
+                    Image(systemName: "lock")
+                        .font(.largeTitle)
+                        .foregroundColor(.red)
+                }
+                else 
+                {
+                    Image(systemName: "lock.open")
+                        .font(.largeTitle)    
+                        .foregroundColor(.green)
+                }
             }
             Spacer()
         }
@@ -31,6 +41,6 @@ struct CameraDeviceRowView: View
 
 struct CameraDeviceRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraDeviceRowView(cameraDevice: .constant(CameraDevice()))
+        CameraDeviceRowView(cameraDevice: CameraDevice())
     }
 }

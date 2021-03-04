@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View 
 {
-    @ObservedObject private var cameraDevicesManager = CameraDeviceManager()
+    @EnvironmentObject private var cameraDevicesManager: CameraDeviceManager
     var body: some View 
     {   
         NavigationView

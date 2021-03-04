@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct MonarchApp: App
 {    
+    @StateObject private var cameraDevicesManager = CameraDeviceManager()
     var body: some Scene 
     {
         WindowGroup 
         {
             ContentView()
+                .environmentObject(cameraDevicesManager)
         }
     }
 }

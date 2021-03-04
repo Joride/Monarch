@@ -14,18 +14,19 @@ struct CameraDeviceListView: View
     var body: some View {
         VStack(alignment: .leading)
         {   
-            HStack {
+            List 
+            {
                 Text(NSLocalizedString("Devices", comment: ""))
                     .font(.title)
-                Spacer()
-            }
-            
-            ForEach((0..<cameraDevices.count), id: \.self) {
-                CameraDeviceRowView(cameraDevice: $cameraDevices[$0])
+                
+                ForEach((0..<cameraDevices.count), id: \.self) { index in
+                    NavigationLink(destination: CameraItemsView(mediaItems: $cameraDevices[index].mediaFiles)) {
+                        CameraDeviceRowView(cameraDevice: cameraDevices[index])
+                    }
+                }
             }
             Spacer()
         }
-        .padding()
     }
 }
 
