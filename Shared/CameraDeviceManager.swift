@@ -272,7 +272,7 @@ class CameraItem: Identifiable, ObservableObject
     fileprivate unowned let iCCameraItem: ICCameraItem
     fileprivate unowned let cameraDevice: CameraDevice
     
-    @Published var name: String? = nil
+    @Published var name: String
     @Published var isLocked: Bool
     @Published var isRaw: Bool 
     @Published var creationDate: Date?
@@ -284,7 +284,7 @@ class CameraItem: Identifiable, ObservableObject
     {
         iCCameraItem = cameraItem
         self.cameraDevice = cameraDevice
-        name = cameraItem.name
+        name = cameraItem.name ?? ""
         isLocked = cameraItem.isLocked
         isRaw = cameraItem.isRaw
         creationDate = cameraItem.creationDate
@@ -293,6 +293,18 @@ class CameraItem: Identifiable, ObservableObject
         cameraItem.userData?[CameraItem.CameraItemKey] = self
     }
     deinit { print("\(Unmanaged.passUnretained(self).toOpaque()) \(type(of: self)) - \(#function)") }
+}
+extension CameraItem: Hashable
+{
+    static func == (lhs: CameraItem, rhs: CameraItem) -> Bool
+    {
+        return lhs === rhs
+    }
+    
+    func hash(into hasher: inout Hasher)
+    {
+        hasher.combine(id)
+    }
 }
 
 

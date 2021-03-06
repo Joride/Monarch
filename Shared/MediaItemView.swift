@@ -10,7 +10,7 @@ import SwiftUI
 struct MediaItemView: View {
     var mediaFile: CameraItem
     var body: some View {
-        Text(mediaFile.name ?? "Untitled")
+        Text(mediaFile.name)
     }
 }
 
