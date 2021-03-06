@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ImageCaptureCore
 
 struct CameraDeviceRowView: View 
 {
@@ -41,6 +42,6 @@ struct CameraDeviceRowView: View
 
 struct CameraDeviceRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraDeviceRowView(cameraDevice: CameraDevice())
+        CameraDeviceRowView(cameraDevice: CameraDevice.exampleDevice)
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CameraItemsView: View {
-    @Binding var mediaItems:  [CameraItem]
+    @ObservedObject var cameraDevice: CameraDevice
     var body: some View {
         VStack(alignment: .leading)
         {   
@@ -16,8 +16,8 @@ struct CameraItemsView: View {
             {
                 Text(NSLocalizedString("Camera Items", comment: ""))
                     .font(.title)
-                ForEach((0..<mediaItems.count), id: \.self) { index in
-                    MediaItemView(mediaFile: mediaItems[index])
+                ForEach((0..<cameraDevice.mediaFiles.count), id: \.self) { index in
+                    MediaItemView(mediaFile: cameraDevice.mediaFiles[index])
                 }
             }
             Spacer()
@@ -28,6 +28,6 @@ struct CameraItemsView: View {
 
 struct CameraItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraItemsView(mediaItems: .constant([CameraItem.exampleItem]))
+        CameraItemsView(cameraDevice: CameraDevice.exampleDevice)
     }
 }

@@ -93,8 +93,24 @@ extension CameraDeviceManager: ICDeviceBrowserDelegate
         print("\(type(of: self)) - \(#function)")	
         if let cameraDevice = device as? ICCameraDevice,
            let cameraId = cameraDevice.uuidString
-        {   
-            cameraDevices.removeAll { $0.id == cameraId }
+        {
+            cameraDevices.removeAll { (cameraDevice: CameraDevice) -> Bool in
+                if cameraDevice.id == cameraId
+                {
+                    assert((cameraDevice.iCCameraDevice.userData![CameraDevice.CameraDeviceKey] as! CameraDevice) === cameraDevice, "No matching or nil icCameraDevice")
+                    cameraDevice.iCCameraDevice.userData?[CameraDevice.CameraDeviceKey] = nil
+                    
+                    for aCameraItem in cameraDevice.mediaFiles
+                    {
+                        assert((aCameraItem.iCCameraItem.userData![CameraItem.CameraItemKey] as! CameraItem) === aCameraItem, "No matching or nil iCCameraItem")
+                        aCameraItem.iCCameraItem.userData?[CameraItem.CameraItemKey] = nil
+                    }
+                    cameraDevice.mediaFiles.removeAll()
+                    
+                    return  true
+                }
+                return false
+            }
         }
     }
 }
@@ -173,7 +189,9 @@ extension CameraDeviceManager: ICCameraDeviceDelegate
 
 class CameraDevice: Identifiable, ObservableObject
 {
+    static var exampleDevice: CameraDevice = {CameraDevice(cameraDevice: ICCameraDevice())}()
     fileprivate static let CameraDeviceKey = "CameraDevice"
+    fileprivate unowned let iCCameraDevice: ICCameraDevice
     enum ProductKind: String, CaseIterable
     {
         case iPhone = "iphone"
@@ -183,34 +201,27 @@ class CameraDevice: Identifiable, ObservableObject
         case scanner = "scanner"
     }
     
-    var id: String = UUID().uuidString
-    @Published var name: String = NSLocalizedString("No Name", comment: "")
-    @Published var productKind: CameraDevice.ProductKind = .camera
-    @Published var isAccessRestrictedAppleDevice: Bool = false
-    @Published var mediaFiles: [CameraItem] = []
-}
-extension CameraDevice: Equatable
-{
-    static func == (lhs: CameraDevice, 
-                    rhs: CameraDevice) -> Bool  { return lhs === rhs }    
-}
-
-private extension CameraDevice
-{
-    convenience init(cameraDevice: ICCameraDevice)
-    {     
-        self.init()
+    fileprivate init(cameraDevice: ICCameraDevice)
+    {
+        iCCameraDevice = cameraDevice
         
         assert(nil != cameraDevice.userData, "Something changed in ImageCaptureCore? If so, we need to maintain a link between ICCameraDevice and CameraDevice ourselves.")
         cameraDevice.userData?[CameraDevice.CameraDeviceKey] = self
         update(with: cameraDevice)
     }
-    func update(with iCCameraDevice: ICCameraDevice)
+    
+    var id: String = UUID().uuidString
+    @Published var name: String = NSLocalizedString("No Name", comment: "")
+    @Published var productKind: CameraDevice.ProductKind = .camera
+    @Published var isAccessRestrictedAppleDevice: Bool = false
+    @Published var mediaFiles: [CameraItem] = []
+    
+    fileprivate func update(with iCCameraDevice: ICCameraDevice)
     {
         guard let userData = iCCameraDevice.userData
         else { fatalError("Something changed in ImageCaptureCore? If so, we need to maintain a link between ICCameraDevice and CameraDevice ourselves.") }
         
-        guard let cameraDevice = userData[CameraDevice.CameraDeviceKey] as? CameraDevice 
+        guard let cameraDevice = userData[CameraDevice.CameraDeviceKey] as? CameraDevice
         else { fatalError("Unexpected type or nil for `\(CameraDevice.CameraDeviceKey)`") }
         
         assert(cameraDevice == self, "Updating a `\(type(of: self))` with an `\(type(of: iCCameraDevice))` that it was not initialized with")
@@ -218,9 +229,9 @@ private extension CameraDevice
         name = iCCameraDevice.name ?? NSLocalizedString("No Name", comment: "")
         isAccessRestrictedAppleDevice = iCCameraDevice.isAccessRestrictedAppleDevice
         productKind = {
-            switch iCCameraDevice.productKind 
+            switch iCCameraDevice.productKind
             {
-            case "iPhone": return .iPhone 
+            case "iPhone": return .iPhone
             case "iPod": return .iPod
             case "iPad": return .iPad
             case "Camers": return .camera
@@ -238,23 +249,29 @@ private extension CameraDevice
                 {
                     // CameraItem already exists
                 }
-                else 
+                else
                 {
-                    let newCameraItem = CameraItem(cameraItem: anICCameraItem, 
+                    let newCameraItem = CameraItem(cameraItem: anICCameraItem,
                                                    cameraDevice: self)
-                    anICCameraItem.userData?[CameraItem.CameraItemKey] = newCameraItem
                     mediaFiles.append(newCameraItem)
                 }
             }
         }
     }
+    deinit { print("\(Unmanaged.passUnretained(self).toOpaque()) \(type(of: self)) - \(#function)") }
+}
+extension CameraDevice: Equatable
+{
+    static func == (lhs: CameraDevice, 
+                    rhs: CameraDevice) -> Bool  { return lhs === rhs }    
 }
 
 class CameraItem: Identifiable, ObservableObject
 {
     fileprivate static let CameraItemKey = "CameraItem"
+    fileprivate unowned let iCCameraItem: ICCameraItem
+    fileprivate unowned let cameraDevice: CameraDevice
     
-    fileprivate unowned var cameraDevice: CameraDevice? = nil
     @Published var name: String? = nil
     @Published var isLocked: Bool
     @Published var isRaw: Bool 
@@ -262,8 +279,10 @@ class CameraItem: Identifiable, ObservableObject
     @Published var modificationDate: Date?
     @Published var thumbnail: CGImage?
     
-    fileprivate init(cameraItem: ICCameraItem, cameraDevice: CameraDevice)
-    {     
+    fileprivate init(cameraItem: ICCameraItem,
+                     cameraDevice: CameraDevice)
+    {
+        iCCameraItem = cameraItem
         self.cameraDevice = cameraDevice
         name = cameraItem.name
         isLocked = cameraItem.isLocked
@@ -272,7 +291,8 @@ class CameraItem: Identifiable, ObservableObject
         modificationDate = cameraItem.modificationDate
         thumbnail = cameraItem.thumbnail
         cameraItem.userData?[CameraItem.CameraItemKey] = self
-    } 
+    }
+    deinit { print("\(Unmanaged.passUnretained(self).toOpaque()) \(type(of: self)) - \(#function)") }
 }
 
 
@@ -284,7 +304,7 @@ extension CameraItem
     private convenience init()
     {
         self.init(cameraItem: ICCameraItem(), 
-                  cameraDevice: CameraDevice())
+                  cameraDevice: CameraDevice(cameraDevice: ICCameraDevice()))
         name = "IMG_2449.jpg"
         isLocked = false
         isRaw = false

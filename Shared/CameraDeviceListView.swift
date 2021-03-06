@@ -20,7 +20,7 @@ struct CameraDeviceListView: View
                     .font(.title)
                 
                 ForEach((0..<cameraDevices.count), id: \.self) { index in
-                    NavigationLink(destination: CameraItemsView(mediaItems: $cameraDevices[index].mediaFiles)) {
+                    NavigationLink(destination: CameraItemsView(cameraDevice: cameraDevices[index])) {
                         CameraDeviceRowView(cameraDevice: cameraDevices[index])
                     }
                 }
@@ -32,7 +32,7 @@ struct CameraDeviceListView: View
 
 struct CameraDeviceListView_Previews: PreviewProvider {
     static var previews: some View {
-        CameraDeviceListView(cameraDevices: .constant([CameraDevice(),
-                                                       CameraDevice()]))
+        CameraDeviceListView(cameraDevices: .constant([CameraDevice.exampleDevice,
+                                                       CameraDevice.exampleDevice]))
     }
 }
